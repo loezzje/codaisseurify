@@ -1,0 +1,15 @@
+<div class="col-md-12">
+  <img class="col-md-4" src="https://upload.wikimedia.org/wikipedia/commons/c/c4/PM5544_with_non-PAL_signals.png">
+  <h1 class="col-md-8"><%= @artist.name %></h1>
+</div>
+
+
+<div class="col-md-12">
+  <ul>
+  <% @songs.each do |song| %>
+  <li>
+    <%= song.name %>
+  </li>
+  <% end %>
+</ul>
+</div>
