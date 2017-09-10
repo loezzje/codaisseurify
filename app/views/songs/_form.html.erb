@@ -1,0 +1,17 @@
+<%= form_for [@artist, @artist.song.new] do |f| %>
+  <p><strong>Artist</strong> <%= @artist.name %></p>
+
+  <hr>
+
+  <div class="form-group">
+    <label>Name of song</label>
+    <%= f.text_field :name %>
+  </div>
+
+
+  <hr>
+
+  <div class="actions">
+    <%= f.submit "Save song", class: "btn btn-success" %>
+  </div>
+<% end %>

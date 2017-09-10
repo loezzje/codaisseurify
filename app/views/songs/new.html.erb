@@ -1,0 +1,23 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Add a new Song
+  </div>
+
+<%
+=begin %>
+  <% if @event.errors? %>
+  <ul>
+    <% @event.errors.each do |error| %>
+    <li><%= error.full_messages %></li>
+    <% end %>
+  </ul>
+  <% end %>
+<%
+=end %>
+
+
+
+  <div class="panel-body">
+    <%= render 'form' %>
+  </div>
+</div>
