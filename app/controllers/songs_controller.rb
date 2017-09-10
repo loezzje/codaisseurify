@@ -17,14 +17,21 @@ end
 
   def create
     artist = Artist.find(params[:artist_id])
-    @song = artist.song.new(song_params)
+    @song = artist.songs.new(song_params)
     if @song.save
-    redirect_to artist_path, notice: "Song successfully created"
+    redirect_to artist_path(artist), notice: "Song successfully created"
   else
     render 'new'
   end
+end
 
 
+  def destroy
+    artist = Artist.find(params[:artist_id])
+    @song = artist.songs.find(:song_id)
+    @song.destroy
+    redirect_to root_path
+  end
 
 
 private
