@@ -28,7 +28,7 @@ end
 
   def destroy
     artist = Artist.find(params[:artist_id])
-    @song = artist.songs.find(:song_id)
+    @song = artist.songs.find(params[:id])
     @song.destroy
     redirect_to root_path
   end
@@ -39,7 +39,7 @@ private
 def song_params
   params
   .require(:song)
-  .permit(:name)
+  .permit(:id, :name)
 
 end
 
