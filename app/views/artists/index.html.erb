@@ -4,18 +4,16 @@
 </h1>
 
 <div class="row">
-  <% @artists.each do |artist| %>
-  <%#check if syntax is needed: <a href="#"> <%>
+  <% @artists.each do |artist|%>
   <div class="col-md-7">
-    <%#add image show syntax: <img class="img-fluid rounded mb-3 mb-md-0" src="and remove following two lines%>
-    <%= artist.name %>
-    <p>remove this text to replace for image</p>
-    <%# possibly needed </a> <%>
+    <%= image_tag artist.photo.image.thumbnail %>
+
   </div>
   <div class="col-md-5">
     <%= link_to artist.name, artist %>
   </div>
 
   <% end %>
+
 </div>
 <%= link_to "Add new Artist", new_artist_path, class: "btn btn-primary" %>
