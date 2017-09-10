@@ -12,20 +12,26 @@ end
 
   def new
     artist = Artist.find(params[:artist_id])
-    @song = artist.songs.build
+    @song = artist.song.new(song_params)
   end
 
   def create
     artist = Artist.find(params[:artist_id])
-    @song = artist.songs.create(params[:song])
+    @song = artist.song.new(song_params)
+    if @song.save
+    redirect_to artist_path, notice: "Song successfully created"
+  else
+    render 'new'
   end
+
+
 
 
 private
 
 def song_params
   params
-  .require(:song, :artist_id)
+  .require(:song)
   .permit(:name)
 
 end

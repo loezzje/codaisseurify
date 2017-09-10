@@ -21,8 +21,14 @@ class ArtistsController < ApplicationController
 
     redirect_to artist_path(@artist), notice: "Artist successfully created"
   else
-    render :new
+    render 'new'
   end
+end
+
+def destroy
+  @artist = Artist.find(params[:id])
+  @artist.destroy
+  redirect_to root_path
 end
 
 private
@@ -30,7 +36,7 @@ private
   def artist_params
     params
     .require(:artist)
-    .permit(:name, :song_ids, :image)
+    .permit(:name, :image_url)
   end
 
 

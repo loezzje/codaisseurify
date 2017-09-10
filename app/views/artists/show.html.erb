@@ -1,3 +1,14 @@
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">Add new song to this artist</div>
+
+    <div class="panel-body">
+      <%= render 'songs/form' %>
+    </div>
+  </div>
+
+
+
 <div class="col-md-12">
   <img class="col-md-4">
   <%= image_tag @artist.photo.image.thumbnail %>
@@ -10,11 +21,10 @@
   <% @artist.songs.each do |song| %>
   <li>
     <%= song.name %>
+
   </li>
   <% end %>
 </ul>
 </div>
 
-
-
-<%= link_to "Add song", new_artist_song_path(:artist_id), class: "btn btn-default" %>
+<%= link_to "[Delete]", artist_path(@artist.id), method: :delete, data: { confirm: "Are you sure?" } %>
