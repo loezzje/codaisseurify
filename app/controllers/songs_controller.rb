@@ -1,25 +1,28 @@
 class SongsController < ApplicationController
+  before_action :get_artist
+
+  def get_artist
+    @artist = Artist.find(params[:artist_id]) if params[:artist_id]
+  end
 
   def index
-    artist = Artist.find(params[:artist_id])
-    @song = artist.songs
+
+    @song = @artist.songs
   end
 
 def show
-  artist = Artist.find(params[:artist_id])
-  @song = artist.songs.find(params[:id])
+
+  @song = @artist.songs.find(params[:id])
 end
 
   def new
-    artist = Artist.find(params[:artist_id])
-    @song = artist.song.new(song_params)
+    @song = @artist.song.build(song_params)
   end
 
   def create
-    artist = Artist.find(params[:artist_id])
-    @song = artist.songs.new(song_params)
+    @song = @artist.songs.build(song_params)
     if @song.save
-    redirect_to artist_path(artist), notice: "Song successfully created"
+    redirect_to artist_path(@artist), notice: "Song successfully created"
   else
     render 'new'
   end
@@ -27,10 +30,10 @@ end
 
 
   def destroy
-    artist = Artist.find(params[:artist_id])
-    @song = artist.songs.find(params[:id])
+
+    @song = @artist.songs.find(params[:id])
     @song.destroy
-    redirect_to root_path
+    redirect_to artist_path(@artist), notice: "Song successfully deleted"
   end
 
 
@@ -39,7 +42,7 @@ private
 def song_params
   params
   .require(:song)
-  .permit(:id, :name)
+  .permit(:name)
 
 end
 
