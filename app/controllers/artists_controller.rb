@@ -36,7 +36,7 @@ private
   def artist_params
     params
     .require(:artist)
-    .permit(:name, :image_url, songs: [:id, :name])
+    .permit(:name, :photo => [:image_url], songs: [:id, :name])
   end
 
 
