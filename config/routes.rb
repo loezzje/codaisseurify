@@ -7,6 +7,4 @@ Rails.application.routes.draw do
     resources :songs
   end
 
-  resources :songs, only:[:destroy]
-
 end
