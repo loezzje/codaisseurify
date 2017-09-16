@@ -1,4 +1,6 @@
 class Api::ArtistsController < ApplicationController
+
+
   def index
     render status: 200, json: {
       artist: Artist.all
@@ -9,7 +11,6 @@ class Api::ArtistsController < ApplicationController
     render status: 200, json: {
       artist: Artist.find(params[:id])
     }.to_json
-
   end
 
 private

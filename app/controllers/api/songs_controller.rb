@@ -1,4 +1,5 @@
 class Api::SongsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_artist
 
   def index
@@ -19,25 +20,30 @@ class Api::SongsController < ApplicationController
     }.to_json
   end
 
-
   def create
     song = @artist.songs.build(song_params)
     if song.save
-      reder status: 200, json: {
+      render status: 201, json: {
         message: "Song succecfully created",
         artist: @artist,
         song: song
       }.to_json
-      redirect_to artist_path(@artist)
     else
       render status: 422, json: {
         message: "Song could not be created",
         errors: song.errors
       }.to_json
-      render 'new'
     end
   end
 
+  def destroy
+    song = @artist.songs.find(params[:id])
+    song.destroy
+
+    render status:200, json: {
+      message: "Song destroyed"
+    }.to_json
+  end
 
 private
   def set_artist
