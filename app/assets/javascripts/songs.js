@@ -3,17 +3,44 @@ function toggleToBeDelete() {
   $(checkbox).parent().toggleClass("toBeDeleted");
 }
 
-// function submitSong() {
-//   event.preventDefault();
-//   var title = $("#new-song").val();
-//
-//   createSong(title);
-//   $("#new-song").val(null);
-// }
-//
-// function createSong(title) {
-//   var checkboxId = "song-" +
-// }
+function submitSong() {
+  event.preventDefault();
+  var title = $("#new-song").val();
+
+  createSong(title);
+  $("#new-song").val(null);
+}
+
+function createSong(title) {
+  var checkboxId = "song-" + nextSongId();
+
+  var listItem = $("<li></li>");
+  listItem.addClass("song");
+
+  var checkbox = $('<input>');
+  checkbox.attr('type', 'checkbox');
+  checkbox.attr('id', checkboxId);
+  checkbox.bind('change', toggleToBeDelete);
+
+  var space = document.createTextNode(" ");
+
+  var label = $('<label></label>');
+  label.attr('for', "song-" + checkboxId)
+  label.html(title);
+
+  listItem.append(checkbox);
+  listItem.append(space);
+  listItem.append(label);
+
+  $("#song").append( listItem );
+
+}
+
+function nextSongId() {
+  return $(".song").length + 1;
+}
+
+
 
 function deleteSelectedSongs(event) {
   event.preventDefault();
