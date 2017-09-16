@@ -10,7 +10,6 @@ class SongsController < ApplicationController
   end
 
   def show
-
     @song = @artist.songs.find(params[:id])
   end
 
@@ -29,7 +28,6 @@ class SongsController < ApplicationController
 
 
   def destroy
-
     @song = @artist.songs.find(params[:id])
     @song.destroy
     redirect_to artist_path(@artist), notice: "Song successfully deleted"
