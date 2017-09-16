@@ -16,15 +16,17 @@
 </div>
 
 
+
 <div class="col-md-12">
-    <ul>
+    <ul id="songlist">
   <% @artist.songs.each do |song| %>
-  <li>
-    <%= song.name %>
+  <li class="song">
+    <input id="song-<%= song.id %>" type="checkbox">
+    <label for="song-<%= song.id %>"><%= song.name %></label>
     <%= link_to "Delete", [song.artist, song], method: :delete, data: { confirm: "Are you sure?" } %>
   </li>
   <% end %>
 </ul>
 </div>
 
-<%= link_to "[Delete]", artist_path(@artist.id), method: :delete, data: { confirm: "Are you sure?" } %>
+<a href="#" id="delete">Delete selected song</a>
