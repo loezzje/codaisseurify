@@ -1,3 +1,4 @@
+
 <%= form_for [@artist, @artist.songs.new] do |f| %>
   <p><strong>Artist</strong> <%= @artist.name %></p>
 
@@ -7,10 +8,7 @@
     <label>Name of song</label>
     <%= f.text_field :name %>
   </div>
-
-
   <hr>
-
   <div class="actions">
     <%= f.submit "Save song", class: "btn btn-success" %>
   </div>

@@ -3,7 +3,9 @@
     <div class="panel-heading">Add new song to this artist</div>
 
     <div class="panel-body">
+      <form>
       <%= render 'songs/form' %>
+    </form>
     </div>
   </div>
 
@@ -23,7 +25,7 @@
   <li class="song">
     <input id="song-<%= song.id %>" type="checkbox">
     <label for="song-<%= song.id %>"><%= song.name %></label>
-    <%= link_to "Delete", [song.artist, song], method: :delete, data: { confirm: "Are you sure?" } %>
+
   </li>
   <% end %>
 </ul>

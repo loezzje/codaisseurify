@@ -3,12 +3,12 @@ function toggleToBeDelete() {
   $(checkbox).parent().toggleClass("toBeDeleted");
 }
 
-function submitSong() {
+function submitSong(event) {
   event.preventDefault();
-  var title = $("#new-song").val();
+  var title = $("#new_song").val();
 
   createSong(title);
-  $("#new-song").val(null);
+  $("#new_song").val(null);
 }
 
 function createSong(title) {
@@ -25,7 +25,7 @@ function createSong(title) {
   var space = document.createTextNode(" ");
 
   var label = $('<label></label>');
-  label.attr('for', "song-" + checkboxId)
+  label.attr('for', "song-" + checkboxId);
   label.html(title);
 
   listItem.append(checkbox);
@@ -34,21 +34,31 @@ function createSong(title) {
 
   $("#song").append( listItem );
 
+  // var newSong = { name: title, toBeDeleted: false };
+  //
+  // $.ajax({
+  //   type: "POST",
+  //   url: "/artists/:id.json",
+  //   data: JSON.stringify({
+  //       song: newSong
+  //   }),
+  //   contentType: "application/json",
+  //   dataType: "json"
+  // });
 }
+
 
 function nextSongId() {
   return $(".song").length + 1;
 }
 
-
-
 function deleteSelectedSongs(event) {
   event.preventDefault();
-  $.when($(".toBeDeleted").remove())
+  $.when($(".toBeDeleted").remove());
 }
 
 $(document).ready(function() {
   $("input[type=checkbox]").bind('change', toggleToBeDelete);
   $("#delete").bind('click', deleteSelectedSongs);
-  // $("form").bind('submit', submitSong);
+  $("form").bind('submit', submitSong);
 });
