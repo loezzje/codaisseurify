@@ -6,7 +6,7 @@ class SongsController < ApplicationController
   end
 
   def index
-    @song = @artist.songs
+    @songs = @artist.songs
   end
 
   def show

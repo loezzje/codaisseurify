@@ -4,7 +4,7 @@ class ArtistsController < ApplicationController
   def index
     @artists = Artist.all
   end
-  
+
   def show
     @artist = Artist.find(params[:id])
     @photo = @artist.photo
@@ -17,11 +17,9 @@ class ArtistsController < ApplicationController
   def create
   @artist = Artist.new(artist_params)
 
-  if @artist.save
-
-
     redirect_to artist_path(@artist), notice: "Artist successfully created"
   else
+    if @artist.save
     render 'new'
   end
 end
@@ -39,7 +37,4 @@ private
     .require(:artist)
     .permit(:name, :photo => [:image_url], songs: [:id, :name])
   end
-
-
-
 end
