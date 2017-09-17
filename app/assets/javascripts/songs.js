@@ -1,5 +1,6 @@
 function toggleToBeDelete() {
   var checkbox = this;
+  var listItem = $(this).parent();
   $(checkbox).parent().toggleClass("toBeDeleted");
 }
 
@@ -52,39 +53,59 @@ function createSong(title) {
 }
 
 
-// function songId () {
-//   var checkbox = this;
-//   var listItem = $(this).parent();
-//   songId = listItem.data('id');
-// }
 //
-// function artistId () {
-//   var checkbox = this;
-//   var unorderedList = $(this).parent().parent();
-//   artistId = unorderedList.data('id');
+// function removeDeletedSongs (event) {
+//
+//   $.each($(".toBeDeleted"), function(show, listItem) {
+//     var checkbox = this;
+//     var songId = $(this).data('id');
+//     var artistId = $('li').parent().data('id');
+//
+//     // var unorderedList = $(this).parent().parent();
+//     // artistId = unorderedList.data('id');
+//     deleteSelectedSongs(songId);
+//   });
 // }
-
-function removeDeletedSongs (event) {
-  event.preventDefault();
-  $.each($(".toBeDeleted"), function(show, listItem) {
-    var checkbox = this;
-    var songId = $(this).data('id');
-    var artistId = $('li').parent().data('id');
-
-    // var unorderedList = $(this).parent().parent();
-    // artistId = unorderedList.data('id');
-    deleteSelectedSongs(songId);
-  });
-}
 
 //   ($(listItem).data('id');
 //   deleteSelectedSongs())
 // }
 
-
-
-function deleteSelectedSongs(songId) {
+// function cleanDeletedSongs(event) {
+//
+//
+//   $.each($(".toBeDeleted"), function(index, listItem) {
+//
+//
+//     deleteSelectedSongs(artistId, songId);
+//   });
+// }
+function deleteAllSongs(event) {
+  event.preventDefault();
   var artistId = $('li').parent().data('id');
+  
+  $.ajax({
+   type: "DELETE",
+   url: "/artists/" + artistId + "/songs/" + songId + ".json",
+   contentType: "application/json",
+   dataType: "json"
+ })
+  $(".song").remove();
+}
+
+
+function deleteSelectedSongs(event) {
+  event.preventDefault();
+  var artistId = $('li').parent().data('id');
+  var checkbox = this;
+  var listItem = $(this).parent();
+  var songId = listItem.data('id');
+
+  //
+  // var checkbox = this;
+  // var listItem = $(this).parent();
+  // var songId = listItem.data('id');
+
   $.ajax({
    type: "DELETE",
    url: "/artists/" + artistId + "/songs/" + songId + ".json",
@@ -92,13 +113,14 @@ function deleteSelectedSongs(songId) {
    dataType: "json"
  })
  .done(function(data){
-   $(".toBeDeleted").remove();
+  $(".toBeDeleted").remove();
  });
  }
 
 
 $(document).ready(function() {
   $("input[type=checkbox]").bind('change', toggleToBeDelete);
-  $("#delete").bind('click', removeDeletedSongs);
+  $("#delete").bind('click', deleteSelectedSongs);
+  $("#deleteall").bind('click', deleteAllSongs);
   $("form").bind('submit', submitSong);
 });
