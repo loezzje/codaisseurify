@@ -1,5 +1,5 @@
 class SongsController < ApplicationController
-
+  skip_before_action :verify_authenticity_token
 
   def index
     artist = Artist.find(params[:artist_id])

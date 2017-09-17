@@ -5,60 +5,100 @@ function toggleToBeDelete() {
 
 function submitSong(event) {
   event.preventDefault();
-  var title = $("#new_song").val();
+  var title = $("#song_name").val();
 
   createSong(title);
-  $("#new_song").val(null);
+  $("#song_name").val(null);
 }
 
 function createSong(title) {
-  var checkboxId = "song-" + nextSongId();
+  var newSong = { name: title, toBeDeleted: false };
+  var artistId = $('li').parent().data('id');
 
-  var listItem = $("<li></li>");
-  listItem.addClass("song");
+  $.ajax({
+    type: "POST",
+    url: "/artists/" + artistId + "/songs.json",
+    data: JSON.stringify({
+        song: newSong
+    }),
+    contentType: "application/json",
+    dataType: "json"
+  })
+  .done(function(data) {
+    var checkboxId = data.id;
 
-  var checkbox = $('<input>');
-  checkbox.attr('type', 'checkbox');
-  checkbox.attr('id', checkboxId);
-  checkbox.bind('change', toggleToBeDelete);
+    var listItem = $("<li></li>");
+    listItem.addClass("song");
 
-  var space = document.createTextNode(" ");
+    var checkbox = $('<input>');
+    checkbox.attr('type', 'checkbox');
+    checkbox.attr('id', checkboxId);
+    checkbox.val(1);
+    checkbox.bind('change', toggleToBeDelete);
 
-  var label = $('<label></label>');
-  label.attr('for', "song-" + checkboxId);
-  label.html(title);
+    var space = document.createTextNode(" ");
 
-  listItem.append(checkbox);
-  listItem.append(space);
-  listItem.append(label);
+    var label = $('<label></label>');
+    label.attr('for', "song-" + checkboxId);
+    label.html(title);
 
-  $("#song").append( listItem );
+    listItem.append(checkbox);
+    listItem.append(space);
+    listItem.append(label);
 
-  // var newSong = { name: title, toBeDeleted: false };
-  //
-  // $.ajax({
-  //   type: "POST",
-  //   url: "/artists/:id.json",
-  //   data: JSON.stringify({
-  //       song: newSong
-  //   }),
-  //   contentType: "application/json",
-  //   dataType: "json"
-  // });
+    $("#song").append( listItem );
+    location.reload(true);
+  });
 }
 
 
-function nextSongId() {
-  return $(".song").length + 1;
-}
+// function songId () {
+//   var checkbox = this;
+//   var listItem = $(this).parent();
+//   songId = listItem.data('id');
+// }
+//
+// function artistId () {
+//   var checkbox = this;
+//   var unorderedList = $(this).parent().parent();
+//   artistId = unorderedList.data('id');
+// }
 
-function deleteSelectedSongs(event) {
+function removeDeletedSongs (event) {
   event.preventDefault();
-  $.when($(".toBeDeleted").remove());
+  $.each($(".toBeDeleted"), function(show, listItem) {
+    var checkbox = this;
+    var songId = $(this).data('id');
+    var artistId = $('li').parent().data('id');
+
+    // var unorderedList = $(this).parent().parent();
+    // artistId = unorderedList.data('id');
+    deleteSelectedSongs(songId);
+  });
 }
+
+//   ($(listItem).data('id');
+//   deleteSelectedSongs())
+// }
+
+
+
+function deleteSelectedSongs(songId) {
+  var artistId = $('li').parent().data('id');
+  $.ajax({
+   type: "DELETE",
+   url: "/artists/" + artistId + "/songs/" + songId + ".json",
+   contentType: "application/json",
+   dataType: "json"
+ })
+ .done(function(data){
+   $(".toBeDeleted").remove();
+ });
+ }
+
 
 $(document).ready(function() {
   $("input[type=checkbox]").bind('change', toggleToBeDelete);
-  $("#delete").bind('click', deleteSelectedSongs);
+  $("#delete").bind('click', removeDeletedSongs);
   $("form").bind('submit', submitSong);
 });

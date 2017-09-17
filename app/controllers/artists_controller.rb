@@ -1,11 +1,11 @@
 class ArtistsController < ApplicationController
-
+  skip_before_action :verify_authenticity_token
   def index
     @artists = Artist.all
   end
 
   def show
-    @artist = Artist.find(params[:id])  
+    @artist = Artist.find(params[:id])
   end
 
   # def new
